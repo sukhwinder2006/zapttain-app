@@ -12,6 +12,7 @@ Two modes (selectable in the sidebar):
 Run locally with:  streamlit run app.py
 """
 
+import gzip
 import io
 import os
 import pickle
@@ -33,6 +34,7 @@ from fingerprint import (
 st.set_page_config(page_title="Sonic Signatures — Song Identifier", layout="wide", page_icon="📡")
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "song_database.pkl")
+DB_PATH_GZ = os.path.join(os.path.dirname(__file__), "song_database.pkl.gz")
 
 # ---------------------------------------------------------------------------
 # Light visual theming — signal/oscilloscope palette. Dark panel background,
@@ -120,8 +122,24 @@ st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
 @st.cache_resource
 def load_database():
-    with open(DB_PATH, "rb") as f:
-        data = pickle.load(f)
+    """
+    Loads song_database.pkl.gz if present (gzip-compressed, to stay under
+    GitHub's 25 MB web-upload limit), otherwise falls back to a plain
+    song_database.pkl.
+    """
+    if os.path.exists(DB_PATH_GZ):
+        with gzip.open(DB_PATH_GZ, "rb") as f:
+            data = pickle.load(f)
+    elif os.path.exists(DB_PATH):
+        with open(DB_PATH, "rb") as f:
+            data = pickle.load(f)
+    else:
+        st.error(
+            "No song database found. Expected `song_database.pkl` or "
+            "`song_database.pkl.gz` in the same folder as app.py. "
+            "Run build_database.py and commit the resulting file to the repo."
+        )
+        st.stop()
     return data
 
 
