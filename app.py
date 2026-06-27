@@ -219,6 +219,11 @@ st.caption(
     "A Shazam-style identifier: spectrogram → sparse constellation of peaks → "
     "paired (f1,f2,Δt) hashes → offset-histogram matching against an indexed song database."
 )
+st.markdown(
+    '<div style="color:#7C8B9C; font-size:0.85rem; margin-top:-0.4rem; margin-bottom:0.6rem;">'
+    'By Sukhwinder &amp; Akshat</div>',
+    unsafe_allow_html=True,
+)
 
 data = load_database()
 db = data["db"]
