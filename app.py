@@ -1,16 +1,3 @@
-"""
-EE200 Course Project — Q3B: Signals to Softwares ("Zapptain America")
-Streamlit app wrapping the Shazam-style audio fingerprinting identifier
-built in Q3A.
-
-Two modes (selectable in the sidebar):
-  1. Single-clip mode — upload one query clip, see the spectrogram,
-     constellation of peaks, offset histogram, and the identified song.
-  2. Batch mode — upload multiple query clips, get a results.csv with
-     columns: filename, prediction (matched song's filename, no extension).
-
-Run locally with:  streamlit run app.py
-"""
 
 import gzip
 import io
@@ -215,12 +202,8 @@ def plot_offset_histogram(offset_counts, best_offsets, top_songs):
 
 st.markdown('<div class="eyebrow">EE200 · Q3B · Audio Fingerprinting</div>', unsafe_allow_html=True)
 st.title("📡 Sonic Signatures")
-st.caption(
-    "A Shazam-style identifier: spectrogram → sparse constellation of peaks → "
-    "paired (f1,f2,Δt) hashes → offset-histogram matching against an indexed song database."
-)
 st.markdown(
-    '<div style="color:#7C8B9C; font-size:0.85rem; margin-top:-0.4rem; margin-bottom:0.6rem;">'
+    '<div style="color:#7C8B9C; font-size:1.1rem; margin-top:-0.2rem; margin-bottom:0.8rem;">'
     'By Sukhwinder &amp; Akshat</div>',
     unsafe_allow_html=True,
 )
@@ -347,3 +330,4 @@ else:
                 file_name="results.csv",
                 mime="text/csv",
             )
+          
